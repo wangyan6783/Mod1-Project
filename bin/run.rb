@@ -1,5 +1,7 @@
 require_relative '../config/environment'
+require 'pry'
 
 
+puts "Hello World"
 
-puts "HELLO WORLD"
+binding.pry
