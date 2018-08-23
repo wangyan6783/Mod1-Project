@@ -2,10 +2,8 @@ require_relative '../config/environment'
 require 'pry'
 
 
-puts "Welcome to Yan-For Clothing Sales Database"
 
-
-
-
-
-binding.pry
+welcome_message
+directory
+input = gets_user_input_index
+navigator(input)
