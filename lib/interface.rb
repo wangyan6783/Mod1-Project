@@ -17,7 +17,8 @@ def directory
   puts "2. Local Data"
   puts "3. Create Product"
   puts "4. Update Product"
-  puts "5. Exit"
+  puts "5. Manual Order Entry"
+  puts "6. Exit"
 end
 
 def local_store_listings
@@ -85,15 +86,16 @@ end
 
 def global_directory
   puts "1. Total Revenue All Stores"
-  puts "2. Global Products"
-  puts "3. In-Season Items"
-  puts "4. List Product by Category" # enter category -> products and in-season
-  puts "5. Best Selling Items"
-  puts "6. Highest Grossing Item"
-  puts "7. Customers on Record"
-  puts "8. VIP Customers"
-  puts "9. Go to Local Data"
-  puts "10. Exit"
+  puts "2. Transaction Volume by Card Type"
+  puts "3. Global Products"
+  puts "4. In-Season Items"
+  puts "5. List Product by Category" # enter category -> products and in-season
+  puts "6. Best Selling Items"
+  puts "7. Highest Grossing Item"
+  puts "8. Customers on Record"
+  puts "9. VIP Customers"
+  puts "10. Go to Local Data"
+  puts "11. Exit"
 end
 
 def global_navigator
@@ -104,30 +106,33 @@ def global_navigator
     puts Store.aggregate_revenue
     puts "======================"
   when '2'
-    puts Product.pluck(:name)
+    Purchase.card_usage
     puts "======================"
   when '3'
-    puts Product.where(in_season: true).pluck(:name)
+    puts Product.pluck(:name)
     puts "======================"
   when '4'
-    Product.products_by_category
+    puts Product.where(in_season: true).pluck(:name)
     puts "======================"
   when '5'
-    puts Product.best_selling
+    Product.products_by_category
     puts "======================"
   when '6'
-    puts Product.highest_gross_product
+    puts Product.best_selling
     puts "======================"
   when '7'
-    Customer.all_data
+    puts Product.highest_gross_product
     puts "======================"
   when '8'
-    Customer.most_valued_customers
+    Customer.all_data
     puts "======================"
   when '9'
-    navigator('2')
+    Customer.most_valued_customers
     puts "======================"
   when '10'
+    navigator('2')
+    puts "======================"
+  when '11'
     abort
   end
 
@@ -160,6 +165,9 @@ def navigator(input)
     update_product
     load 'bin/run.rb'
   when '5'
+    create_order
+    load 'bin/run.rb'
+  when '6'
     abort
   end
 
@@ -214,5 +222,37 @@ def update_product
     new_status = gets.chomp
     product.update(in_season: new_status)
   end
+
+end
+
+def create_order
+  puts "_______________________________________________"
+  puts "Welcome to the Yan-For Manual Order Entry Form"
+  puts "_______________________________________________"
+  puts "Enter customer email:"
+  email = gets.chomp
+  if Customer.find_by(email: email)
+    customer_id = Customer.find_by(email: email).id
+    puts "Found existing customer record."
+  else
+    puts "No such customer registered in our records. Please enter the customer's full name:"
+    full_name = gets.chomp
+    customer_id = Customer.create(name: full_name, email: email).id
+  end
+  puts "======================"
+  puts "Currently Available:"
+  all_products
+  puts "Please enter the Product Ref. No.:"
+  prod_id = gets.chomp
+  puts "Please Card Name/Type (example: Visa):"
+  puts "1. Visa"
+  puts "2. MasterCard"
+  puts "3. Discover"
+  puts "4. Debit"
+  card = gets.chomp
+
+  Purchase.create(customer_id: customer_id, product_id: prod_id, card_type: card)
+
+  puts "Order Submitted."
 
 end
