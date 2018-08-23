@@ -15,7 +15,14 @@ class Store < ActiveRecord::Base
   end
 
   def revenue
-      Product.joins(:purchases, :stores).where(stores: {id: self.id}).sum(:price)
+      # Product.joins(:store_products, :purchases).where(store_products: {store_id: self.id}).sum(:price)
+      Product.joins("SELECT SUM(products.price)
+      FROM products
+      INNER JOIN store_products
+      ON store_products.product_id = products.id
+      INNER JOIN purchases
+      ON purchases.product_id = products.id
+      WHERE store_products.store_id = ?", self.id)
   end
 
   def local_customer_emails
