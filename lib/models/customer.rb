@@ -3,7 +3,8 @@ class Customer < ActiveRecord::Base
   validates :email, presence: true
   has_many :purchases
   has_many :products, through: :purchases
-  has_many :stores, through: :products
+  has_many :stores, through: :purchases
+  # update
 
   def self.most_valued_customers
     # val_cust_id = Product.joins(:purchases).group(:customer_id).sum(:price).max_by{|k,v| v}[0]
@@ -17,5 +18,5 @@ class Customer < ActiveRecord::Base
       puts "#{customer.name} <#{customer.email}>"
     end
   end
-  
+
 end

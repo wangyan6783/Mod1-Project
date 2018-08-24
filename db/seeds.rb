@@ -11,8 +11,8 @@ puts "Beginning seed."
 #   email = Faker::Internet.email(name)
 #   Customer.create(name: name, email: email )
 # end
-
-
+#
+#
 # Product.create(name: "Alpaca Vest", category: "Outerwear", price: 350, in_season: true)
 # Product.create(name: "Alpaca Jacket", category: "Outerwear", price: 500, in_season: true)
 # Product.create(name: "Leather Jacket", category: "Outerwear", price: 900, in_season: true)
@@ -28,7 +28,7 @@ puts "Beginning seed."
 # Product.create(name: "9-inch Swimtrunks", category: "Swimwear", price: 35, in_season: false)
 # Product.create(name: "Linen Button-Down", category: "Casual", price: 70, in_season: false)
 
-
+# Old
 # Purchase.create(customer_id: 2, product_id: 1, card_type: "Visa")
 # Purchase.create(customer_id: 2, product_id: 1, card_type: "Visa")
 # Purchase.create(customer_id: 3, product_id: 1, card_type: "Visa")
@@ -36,20 +36,23 @@ puts "Beginning seed."
 # Purchase.create(customer_id: 3, product_id: 3, card_type: "Visa")
 
 
-# 50.times do
-#   Purchase.create(customer_id: rand(1..Customer.last.id), product_id: rand(1..Product.last.id))
-# end
+50.times do
+  Purchase.create(customer_id: rand(1..Customer.last.id), product_id: rand(1..Product.last.id), store_id: rand(1..3), card_type: ["Visa", "MasterCard", "Discover", "Debit"].sample)
+end
+# update
 
 
 # Store.create(location: "United States")
 # Store.create(location: "China")
 # Store.create(location: "Canada")
-
+#
 # Store.all.each do |store|
 #   Product.all.each do |product|
 #     StoreProduct.create(store_id: store.id, product_id: product.id)
 #   end
 # end
+
+# Old
 # StoreProduct.create(store_id: 1, product_id: 2)
 # StoreProduct.create(store_id: 2, product_id: 1)
 # StoreProduct.create(store_id: 3, product_id: 3)

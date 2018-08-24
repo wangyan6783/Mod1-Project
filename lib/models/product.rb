@@ -17,19 +17,27 @@ class Product < ActiveRecord::Base
   end
 
   def self.products_by_category
-    puts "Please select category by name (example: Outerwear)"
+    puts ""
+    puts "=========================".green
     puts Product.pluck(:category).uniq
-    puts "Input text here:"
+    puts "=========================".green
+    puts ""
+    puts "Please select category by name (example: Outerwear)".white.on_light_blue
+    puts ""
+    puts "Input text here:".white.on_light_blue
     input = gets.chomp
     prod_array = Product.where(category: input)
     if prod_array == []
-      puts "Invalid Input"
+      puts "Invalid Input".white.on_red
+      puts ""
     else
+      puts ""
+      puts "============================================".green
       prod_array.each do |product|
         puts "#{product.name} - $#{product.price} - in-season: #{product.in_season}"
       end
+      puts "============================================".green
+      puts ""
     end
   end
-
-
 end
