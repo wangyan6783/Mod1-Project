@@ -1,11 +1,9 @@
 require 'colorize'
 
 def welcome_message
-  # puts "**********************************".blink
   puts ""
   puts "WELCOME TO YAN-FOR SALES DATABASE".on_light_green
   puts ""
-  # puts "**********************************".blink
 end
 
 def gets_user_input_index
@@ -36,12 +34,8 @@ end
 def navigator(input)
   case input
   when '1'
-    # direct to global data
-    # global_directory
-    # input = gets_user_input_index
     global_navigator
   when '2'
-    # direct to local data
     puts ""
     puts "************".blink.green
     puts "Local Data:".blue
@@ -82,7 +76,7 @@ def global_directory
   puts ""
   puts "5. List Product by Category".underline # enter category -> products and in-season
   puts ""
-  puts "6. Best Selling Items".underline
+  puts "6. Best Selling Item".underline
   puts ""
   puts "7. Highest Grossing Item".underline
   puts ""
@@ -92,7 +86,9 @@ def global_directory
   puts ""
   puts "10. Go to Local Data".underline
   puts ""
-  puts "11. Exit".underline
+  puts "11. Go to Main Directory".underline
+  puts ""
+  puts "12. Exit".underline
   puts ""
 end
 
@@ -103,7 +99,7 @@ def global_navigator
   when '1'
     puts ""
     puts "=========================".green
-    puts Store.aggregate_revenue
+    puts "$" + Store.aggregate_revenue.to_s
     puts "=========================".green
     puts ""
   when '2'
@@ -115,7 +111,7 @@ def global_navigator
   when '3'
     puts ""
     puts "=========================".green
-    puts Product.pluck(:name)
+    puts Product.all_products
     puts "=========================".green
     puts ""
   when '4'
@@ -153,6 +149,8 @@ def global_navigator
   when '10'
     navigator('2')
   when '11'
+    load 'bin/run.rb'
+  when '12'
     abort
   end
 
@@ -188,9 +186,11 @@ def local_store_info
   puts ""
   puts "5. VIP Customers".underline
   puts ""
-  puts "6. Return to Global Data".underline
+  puts "6. Go to Global Data".underline
   puts ""
-  puts "7. Exit".underline
+  puts "7. Go to Main Directory".underline
+  puts ""
+  puts "8. Exit".underline
   puts ""
 end
 
@@ -202,13 +202,13 @@ def local_navigator(store)
   when '1'
     puts ""
     puts "=========================".green
-    puts store.revenue
+    puts "$" + store.revenue.to_s
     puts "=========================".green
     puts ""
   when '2'
     puts ""
     puts "=========================".green
-    puts store.products.pluck(:name)
+    puts Product.all_products
     puts "=========================".green
     puts ""
   when '3'
@@ -232,6 +232,8 @@ def local_navigator(store)
   when '6'
     navigator('1')
   when '7'
+    load 'bin/run.rb'
+  when '8'
     abort
   end
 
@@ -279,9 +281,9 @@ def create_product #store method
   puts ""
   puts "Product Created:".white.on_red
   puts ""
-  puts "================================".green
+  puts "=============================================".green
   puts "#{new_product.name} - #{new_product.category} - #{new_product.price} - #{new_product.in_season}"
-  puts "================================".green
+  puts "=============================================".green
   puts ""
   puts "Return to list? (y/n)".white.on_light_blue
   response = gets.chomp
@@ -293,20 +295,13 @@ def create_product #store method
 end
 
 
-def all_products
-  Product.all.each do |product|
-      puts "#{product.name}, Current Price: #{product.price}, Ref. No. #{product.id}"
-      end
-end
-# update - move to Product Class
-
 def update_product
   puts ""
   puts "***************".blink.green
   puts "Update Product:".blue
   puts "***************".blink.green
   puts ""
-  all_products
+  Product.all_products
   puts "Enter Product from List into Console.".white.on_light_blue
   puts ""
   puts "Please use reference number:".white.on_light_blue
@@ -331,9 +326,9 @@ def update_product
   puts ""
   puts "Product Updated:".white.on_red
   puts ""
-  puts "================================".green
+  puts "=============================================".green
   puts "#{product.name} - #{product.category} - #{product.price} - #{product.in_season}"
-  puts "================================".green
+  puts "=============================================".green
   puts ""
   puts "Return to list? (y/n)".white.on_light_blue
   response = gets.chomp
@@ -342,15 +337,7 @@ def update_product
   else
     abort
   end
-
 end
-
-def all_stores
-  Store.all.each do |store|
-    puts "#{store.location}, Ref. No. #{store.id}"
-  end
-end
-# update
 
 def create_order
   puts ""
@@ -371,9 +358,9 @@ def create_order
     full_name = gets.chomp
     customer_id = Customer.create(name: full_name, email: email).id
   end
-  puts "======================"
+  puts ""
   puts "Currently Available:".white.on_light_blue
-  all_products
+  Product.in_season_products
   puts "Please enter the Product Ref. No.:".white.on_light_blue
   prod_id = gets.chomp
   puts "Please Enter Card Name/Type (example: Visa):".white.on_light_blue
@@ -382,11 +369,10 @@ def create_order
   puts "3. Discover"
   puts "4. Debit"
   card_type = gets.chomp
-  puts ""
-  all_stores
+  puts "Store Listings:".white.on_light_blue
+  Store.all_stores
   puts "Please Enter the Store Ref. No.:".white.on_light_blue
   store_id = gets.chomp
-  # update
 
   Purchase.create(customer_id: customer_id, product_id: prod_id, store_id: store_id, card_type: card_type)
   puts ""

@@ -40,4 +40,17 @@ class Product < ActiveRecord::Base
       puts ""
     end
   end
+
+  def self.all_products
+    self.all.map do |product|
+      puts "#{product.name}, Current Price: #{product.price}, In Season? #{product.in_season}, Ref. No. #{product.id}"
+    end
+    nil
+  end
+
+  def self.in_season_products
+    self.where(in_season: true).each do |product|
+      puts "#{product.name}, Current Price: #{product.price}, Ref. No. #{product.id}"
+    end
+  end
 end

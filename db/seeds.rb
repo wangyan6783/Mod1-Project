@@ -6,12 +6,12 @@ require_relative '../lib/models/store'
 require 'faker'
 
 puts "Beginning seed."
+
 # 50.times do
 #   name = Faker::Name.name
 #   email = Faker::Internet.email(name)
 #   Customer.create(name: name, email: email )
 # end
-#
 #
 # Product.create(name: "Alpaca Vest", category: "Outerwear", price: 350, in_season: true)
 # Product.create(name: "Alpaca Jacket", category: "Outerwear", price: 500, in_season: true)
@@ -27,21 +27,14 @@ puts "Beginning seed."
 # Product.create(name: "Merino Wool Socks", category: "Accessories", price: 12, in_season: true)
 # Product.create(name: "9-inch Swimtrunks", category: "Swimwear", price: 35, in_season: false)
 # Product.create(name: "Linen Button-Down", category: "Casual", price: 70, in_season: false)
-
-# Old
-# Purchase.create(customer_id: 2, product_id: 1, card_type: "Visa")
-# Purchase.create(customer_id: 2, product_id: 1, card_type: "Visa")
-# Purchase.create(customer_id: 3, product_id: 1, card_type: "Visa")
-# Purchase.create(customer_id: 2, product_id: 2, card_type: "Visa")
-# Purchase.create(customer_id: 3, product_id: 3, card_type: "Visa")
-
-
-50.times do
-  Purchase.create(customer_id: rand(1..Customer.last.id), product_id: rand(1..Product.last.id), store_id: rand(1..3), card_type: ["Visa", "MasterCard", "Discover", "Debit"].sample)
-end
-# update
-
-
+#
+#
+#
+# 50.times do
+#   Purchase.create(customer_id: rand(1..Customer.last.id), product_id: rand(1..Product.last.id), store_id: rand(1..3), card_type: ["Visa", "MasterCard", "Discover", "Debit"].sample)
+# end
+#
+#
 # Store.create(location: "United States")
 # Store.create(location: "China")
 # Store.create(location: "Canada")
@@ -51,12 +44,5 @@ end
 #     StoreProduct.create(store_id: store.id, product_id: product.id)
 #   end
 # end
-
-# Old
-# StoreProduct.create(store_id: 1, product_id: 2)
-# StoreProduct.create(store_id: 2, product_id: 1)
-# StoreProduct.create(store_id: 3, product_id: 3)
-# StoreProduct.create(store_id: 1, product_id: 3)
-# StoreProduct.create(store_id: 2, product_id: 3)
 
 puts "Seed complete."
